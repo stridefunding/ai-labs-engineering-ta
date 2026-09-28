@@ -1,12 +1,16 @@
 # Build a dependable order import service with Clasp
 
+![Order documents being reviewed and selected before safe storage.](assets/order-import-hero.png)
+
 Thanks for making time for this exercise. We’re looking forward to seeing how you approach a practical problem and check your work.
 
 A teammate receives order exports from a partner. They need to review each file, choose what to import, and understand what was saved. Build a small HTTP service to help them do that confidently.
 
-**Spend about four hours.** Focus on the three core tasks below. Use your preferred language and libraries; no frontend, deployment, authentication, or AI feature is required. If you run out of time, tell us what’s unfinished. Questions? Reply to your invitation email.
+**Spend about four hours.** Focus on the three core tasks below. Use your preferred language and libraries; no frontend, deployment, authentication, or AI feature is required. If you run out of time, tell us what’s unfinished. Questions? Email [technologyhiring@clasp.com](mailto:technologyhiring@clasp.com).
 
 ## Build these three things
+
+![Order import workflow: CSV → preview → choose rows → import → results.](assets/order-import-workflow.png)
 
 1. **Preview the file.** Accept a CSV and show which rows are ready, invalid, duplicates, or already stored, with helpful explanations. Previewing must not change orders. You may reject a problematic file as a whole if you explain what needs fixing.
 2. **Import the chosen orders safely.** Let the caller select rows from that preview. Save only approved, valid orders; preserve existing records and IDs. Identical resends should not create duplicates, and conflicting values must not overwrite an order.
@@ -39,7 +43,11 @@ Choose a stretch that interests you: **1. competing requests; 2. interrupted imp
 
 ## Using AI tools
 
-AI assistance is welcome. These are the allowed closed-source models:
+We use AI in our work at Clasp, and we’re looking for engineers who use it thoughtfully to produce great work. You’re welcome to use it throughout this exercise—for planning, implementation, tests, and review.
+
+**Use AI freely within the guidelines below, and own the result.** Understand the code you submit, check suggestions against actual behavior, and be ready to explain your tradeoffs, debug a problem, or make a change. We’re interested in where AI helped, what you challenged or corrected, and what you verified yourself.
+
+These are the allowed closed-source models:
 
 | Provider | Allowed models |
 | --- | --- |
