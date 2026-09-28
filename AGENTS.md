@@ -1,6 +1,5 @@
 # Candidate exercise instructions
 
-- Follow [README.md](README.md) and [API_CONTRACT.md](API_CONTRACT.md).
-- For AI assistance on this exercise, closed-source models are restricted to **Terra, Luna, Sonnet and Haiku**. Any open-source model is allowed. Apply this to planning, development, testing, debugging, review, documentation, delegated agents and routing/fallbacks.
-- Disclose **every harness/tool and model used**, with its role, provider, exact model ID/version and relevant settings when known, including review-only use. Follow the disclosure format in README.md. Do not infer unknown identities or omit model switches.
+- Follow the three core tasks in [README.md](README.md) and the shapes in [API_CONTRACT.md](API_CONTRACT.md). [STRETCHES.md](STRETCHES.md) is optional, within the same timebox.
+- Follow the provider/model allowlist in [README.md](README.md#using-ai-tools), including for reviews, delegated agents and fallbacks. Disclose every harness/model and its role, exact ID/version and settings when known; do not guess unknown identities.
 - Keep main at the template and implement on submission. Preserve supplied data and use a working database copy.
