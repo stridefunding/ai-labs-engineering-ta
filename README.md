@@ -1,34 +1,25 @@
-# Dependable order imports — V2.1.0
+# Build a dependable order import service with Clasp
 
-The accompanying [HTTP contract](API_CONTRACT.md) defines the service interface. This repository is the candidate-facing template. Its exercise version is recorded in [VERSION](VERSION); implement your solution on the `submission` branch.
+Thanks for taking the time to work through this exercise. We’re looking forward to seeing how you approach a practical engineering problem, the choices you make, and how you check your work.
 
-Help an internal teammate import orders from a third-party partner with confidence. Build a small HTTP service that lets a caller inspect a CSV, decide which orders to import, and understand exactly what happened.
+Imagine a teammate has received an order export from a partner. Before adding it to the database, they need to understand what’s in the file, resolve any concerns, and choose what to import. Your task is to build a small HTTP service that helps them do that with confidence—and understand what happened if something goes wrong.
 
-Give this **about four hours**. Prioritize a useful working slice and tell us clearly what remains incomplete. We care about correctness, recovery, meaningful tests, clear code, and a usable handoff. A frontend is not required or scored. No authentication, deployment, AI feature, Docker, ORM, or particular framework is required.
+## Before you start
 
-Use your preferred language and libraries. AI tools are welcome under the model-use rules below. You should be able to explain your decisions and show what you checked. Within these rules, model or harness choice does not earn extra credit.
+Plan to spend **about four hours**. Start with a useful working flow, then use the remaining time on the risks you think matter most. If you run out of time, tell us what’s incomplete and what you would do next. That context helps us understand your decisions.
 
-## AI models and disclosure
+Use your preferred language and libraries. **No frontend or deployment is required.** You also don’t need authentication, an AI feature, Docker, an ORM, or any particular framework. We care about correctness, recovery, meaningful tests, clear code, and a handoff another engineer can follow.
 
-If you use **closed-source models, use only Terra, Luna, Sonnet, or Haiku**. **Any open-source model is permitted.** These rules apply to all AI assistance on the exercise: planning, implementation, testing, debugging, review, documentation, and delegated agents/subagents. Configure automated reviewers, model routing and fallbacks to follow the same restriction; using an allowed harness does not make every model it can call permissible.
+AI assistance is welcome within the [model and disclosure guidelines below](#using-ai-tools). Your choice of model or harness doesn’t earn extra credit; we’re interested in your decisions and what you verified.
 
-In your handoff, list **every harness/tool and every model used**, including models used only for review, tests or documentation. A harness is the environment driving a model, such as a CLI agent, IDE assistant, chat interface, API script, orchestration framework or review bot. Identify each harness and model separately; a harness name alone is not a model disclosure.
+The [API contract](API_CONTRACT.md) gives you the interface, examples, and input limits. This is exercise **v2.1.0**, also recorded in [VERSION](VERSION). Keep `main` at the starting template and build your solution on `submission`. If anything in the brief is unclear, please reply to your invitation email.
 
-For each combination, record:
-
-| Role / work performed | Harness/tool and version, if known | Provider and model name / exact ID or version | Relevant settings, if known |
-| --- | --- | --- | --- |
-
-Include model switches, routed/fallback models and delegated reviewers. Record reasoning/effort settings when exposed. State `unknown` for details the tool does not expose; do not infer model identity from a folder name or harness name, and do not assume an unknown model is permitted. Choose a configuration that identifies an allowed model before using it. If a disallowed model was used accidentally, disclose it rather than omitting it.
-
-Also summarize what you independently checked and which checks actually ran. If you used no AI, say so. No hidden chain-of-thought, complete chat transcript or exhaustive process diary is required.
-
-## Supplied data
+## What’s included
 
 - `data/existing-orders.db`: 12 fictional orders in one SQLite table.
 - `data/partner-export-01.csv` and `data/partner-export-02.csv`: 30 rows each, including data-quality problems.
 - `API_CONTRACT.md`: the public HTTP interface and examples.
-- `smoke.py`: a public contract check: `python3 smoke.py --url http://127.0.0.1:8000 --db /path/to/working.db`. Use a disposable working database. It does not substitute for your own tests.
+- `smoke.py`: a public contract check: `python3 smoke.py --url http://127.0.0.1:8000 --db /path/to/working.db`. Use a disposable working database. Use it to check the interface as you build, alongside your own tests.
 
 Keep the supplied files unchanged. Run against a working database copy, configured with `ORDERS_DB`; document how to initialize and reset it. You may add tables/columns/indexes, but retain the supplied order columns, their meanings, existing values and generated internal IDs.
 
@@ -50,22 +41,60 @@ Declare whether a write failure rolls back the selected batch or retains explici
 - `order_amount` is in major units: `12.50` becomes integer `amount_minor = 1250`. Zero is valid. Accept ordinary unsigned decimal notation with up to two decimal places; reject negatives, rounding, exponents, currency symbols and ambiguous separators. The supported maximum is `2^53 - 1` minor units; reject larger values explicitly.
 - Currencies are `USD`, `EUR`, `GBP`; statuses are `pending`, `paid`, `shipped`, `cancelled`. No conversions or transitions are required. You may refuse other casing; any supported normalization must be visible before approval.
 - `order_date` is a real calendar date in `YYYY-MM-DD` form. No timezones or “must be in the past” rule. All required customer emails must be nonblank; do not invent extra business rules. If you add syntax checks, document them and keep ordinary addresses working.
-- Existing orders are insert-only for this exercise. An identical resend can be skipped; changed required values are conflicts. An email-case change counts as a changed value in V2; this removes V1's undocumented equivalence variation.
+- Existing orders are insert-only for this exercise. An identical resend can be skipped; changed required values are conflicts. An email-case change counts as a changed value.
 
 Support the ordinary UTF-8 comma-separated exports, including quoted commas/escaped quotes, and the supplied exports and ordinary values described here. You need not support every CSV dialect. Clearly refuse malformed/unsupported input without losing a normal recovery path. The API contract discloses input limits and identifies optional format variations.
 
-## What we will assess
+## How we’ll review your work
 
-Five attributes: correctness/data safety; failure handling/recovery; test quality; code clarity/changeability; developer experience/handoff. We exercise real HTTP requests and inspect the working SQLite database, including selected identities and original records, not just response counts.
+We’ll look at five areas:
 
-Checks include valid files, missing/invalid values, repeated/conflicting identities, subset selection, stale previews, invalid direct requests, concurrent requests, controlled SQLite write failures/locks, a committed operation whose response is lost, restart, and bounded input limits. We also run and inspect your own tests. A browser or browser automation tool is not needed.
+- **Correctness and data safety:** does the service save the approved orders with the right values and explain the results accurately?
+- **Recovery:** can a caller safely make progress after a failure, retry, or restart?
+- **Tests:** do your checks give useful confidence in the behavior and risks that matter?
+- **Code clarity:** can another engineer understand the responsibilities and make a focused change?
+- **Developer experience and handoff:** can we follow your instructions to run, test, and reset the service, and understand its limitations?
 
-The public smoke check helps you verify the interface and a small useful workflow. It is not the complete evaluation, and passing it alone does not establish reliability. No score is awarded for extra features or documentation volume.
+We’ll run real HTTP requests, inspect the working SQLite database, and run and read your tests. Checks include valid files, missing or invalid values, repeated or conflicting identities, subset selection, stale previews, invalid direct requests, concurrent requests, controlled SQLite write failures and locks, a committed operation whose response is lost, restart, and bounded input limits. You won’t need a browser or browser automation tool.
 
-## Handoff and submission
+The public smoke check covers the interface and a small working flow; our review also explores the cases above. Extra features and longer documentation don’t earn extra credit. Focus on a solution you can explain and evidence that it works.
 
-Give us a short README with prerequisites and exact setup/start/test/reset commands; `PORT` and `ORDERS_DB` configuration; accepted formats and assumptions; atomic/partial failure policy; how a caller safely retries; tests actually run; and known limits/next work. Include the complete harness/model usage disclosure above and what you independently checked.
+## Using AI tools
 
-Use the provided template to create a **private** repository under your personal account. Keep `main` at the original template; implement on `submission`. Add `StrideTechHiring` as a collaborator and open an unmerged PR from `submission` to `main`. Reply to the assessment email with `READY FOR REVIEW`, your GitHub username, repository URL and PR URL.
+You’re welcome to use AI for planning, implementation, testing, debugging, review, and documentation. You should be able to explain the decisions in your submission and tell us what you checked yourself.
 
-We assess the exact committed PR-head snapshot. Ensure implementation files are committed; untracked work is not included. Once submitted, keep that snapshot unchanged until we confirm receipt. A few candid notes about incomplete work are more useful than unsupported claims of completeness.
+For closed-source models, please use **only Terra, Luna, Sonnet, or Haiku**. **Any open-source model is permitted.** The same rule applies to delegated agents, automated reviewers, model routing, and fallbacks, so check those settings before you start. A harness can provide access to several models; choose a configuration that identifies an allowed model.
+
+In your handoff, list **every harness/tool and model you used**, including review-only assistance. By “harness,” we mean the environment driving the model—for example, a CLI agent, IDE assistant, chat interface, API script, orchestration framework, or review bot. Please identify the harness and the model separately.
+
+This table is enough to get started:
+
+| Role / work performed | Harness/tool and version, if known | Provider and model name / exact ID or version | Relevant settings, if known |
+| --- | --- | --- | --- |
+
+Include model switches, routed or fallback models, delegated reviewers, and reasoning/effort settings when exposed. Mark details the tool doesn’t expose as `unknown` rather than guessing; a folder or harness name doesn’t establish model identity, and an unknown model isn’t automatically permitted. If you accidentally use a model outside the allowed list, please mention it openly.
+
+Also summarize what you independently checked and which checks actually ran. If you didn’t use AI, just say so. We don’t need hidden chain-of-thought, full chat transcripts, or an exhaustive process diary.
+
+## Wrapping up
+
+Leave a short README that helps us pick up where you left off. Please include:
+
+- Prerequisites and exact setup, start, test, and reset commands, including `PORT` and `ORDERS_DB` configuration.
+- Accepted formats, assumptions, and whether a write failure rolls back the batch or retains completed rows.
+- How a caller safely retries and reconciles the result.
+- Tests you actually ran, what you independently checked, and the AI tool/model disclosure above.
+- Known limitations and what you’d work on next.
+
+A few candid notes about unfinished work are helpful. You don’t need to spend your remaining time polishing a long write-up.
+
+When you’re ready to submit:
+
+1. Use this template to create a **private** repository under your personal account.
+2. Keep `main` at the original template and commit your implementation on `submission`.
+3. Add **StrideTechHiring** as a collaborator and open an **unmerged PR** from `submission` to `main`.
+4. Reply to your invitation email with **READY FOR REVIEW**, your GitHub username, repository URL, and PR URL.
+
+We review the exact committed PR-head snapshot, so please make sure your implementation files are committed—untracked files won’t be included. Keep that snapshot unchanged until we confirm receipt.
+
+Thanks again for making time for this. We’re looking forward to discussing your approach with you.
