@@ -59,6 +59,8 @@ These are the allowed closed-source models:
 
 In your handoff, list every tool/harness and model used, its provider, exact model ID/version and settings when known, and what it helped with—including review. Mention switches or accidental use outside the list; mark unavailable details `unknown`. Summarize what you checked yourself. No full transcripts are needed.
 
+If you use agent skills or MCP servers, you’re welcome to commit the relevant skill files or sanitized configurations, or link to them in your handoff, with a short note on how they helped. Please leave out credentials and private data.
+
 Model references: [Anthropic](https://platform.claude.com/docs/en/models/overview), [OpenAI](https://developers.openai.com/api/docs/models/all), [Google](https://ai.google.dev/gemini-api/docs/models).
 
 ## Hand it over
