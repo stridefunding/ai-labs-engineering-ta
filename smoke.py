@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Public V2 smoke test. Standard library only; use a disposable working DB."""
+"""Public smoke test. Standard library only; use a disposable working DB."""
 import argparse
 from contextlib import closing
 import base64

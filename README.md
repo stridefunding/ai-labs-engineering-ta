@@ -12,7 +12,7 @@ Use your preferred language and libraries. **No frontend or deployment is requir
 
 AI assistance is welcome within the [model and disclosure guidelines below](#using-ai-tools). Your choice of model or harness doesn’t earn extra credit; we’re interested in your decisions and what you verified.
 
-The [API contract](API_CONTRACT.md) gives you the interface, examples, and input limits. This is exercise **v2.1.0**, also recorded in [VERSION](VERSION). Keep `main` at the starting template and build your solution on `submission`. If anything in the brief is unclear, please reply to your invitation email.
+The [API contract](API_CONTRACT.md) gives you the interface, examples, and input limits. Keep `main` at the starting template and build your solution on `submission`. If anything in the brief is unclear, please reply to your invitation email.
 
 ## What’s included
 

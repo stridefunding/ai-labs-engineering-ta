@@ -1,4 +1,4 @@
-# Order import HTTP contract — V2
+# Order import HTTP contract
 
 This specifies the observable interface, not internal classes, libraries, preview storage, or a reference importer. The [candidate brief](README.md) supplies business rules. The included smoke client exercises the public examples; private fixtures and scoring artifacts are not candidate-facing.
 
