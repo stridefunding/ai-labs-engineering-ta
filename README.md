@@ -1,4 +1,4 @@
-# Dependable order imports — V2.0.0
+# Dependable order imports — V2.1.0
 
 The accompanying [HTTP contract](API_CONTRACT.md) defines the service interface. This repository is the candidate-facing template. Its exercise version is recorded in [VERSION](VERSION); implement your solution on the `submission` branch.
 
@@ -6,7 +6,22 @@ Help an internal teammate import orders from a third-party partner with confiden
 
 Give this **about four hours**. Prioritize a useful working slice and tell us clearly what remains incomplete. We care about correctness, recovery, meaningful tests, clear code, and a usable handoff. A frontend is not required or scored. No authentication, deployment, AI feature, Docker, ORM, or particular framework is required.
 
-Use your preferred language and libraries. AI tools are welcome. You should be able to explain your decisions and show what you checked; tool choice, model name, and claims about development process are not scores.
+Use your preferred language and libraries. AI tools are welcome under the model-use rules below. You should be able to explain your decisions and show what you checked. Within these rules, model or harness choice does not earn extra credit.
+
+## AI models and disclosure
+
+If you use **closed-source models, use only Terra, Luna, Sonnet, or Haiku**. **Any open-source model is permitted.** These rules apply to all AI assistance on the exercise: planning, implementation, testing, debugging, review, documentation, and delegated agents/subagents. Configure automated reviewers, model routing and fallbacks to follow the same restriction; using an allowed harness does not make every model it can call permissible.
+
+In your handoff, list **every harness/tool and every model used**, including models used only for review, tests or documentation. A harness is the environment driving a model, such as a CLI agent, IDE assistant, chat interface, API script, orchestration framework or review bot. Identify each harness and model separately; a harness name alone is not a model disclosure.
+
+For each combination, record:
+
+| Role / work performed | Harness/tool and version, if known | Provider and model name / exact ID or version | Relevant settings, if known |
+| --- | --- | --- | --- |
+
+Include model switches, routed/fallback models and delegated reviewers. Record reasoning/effort settings when exposed. State `unknown` for details the tool does not expose; do not infer model identity from a folder name or harness name, and do not assume an unknown model is permitted. Choose a configuration that identifies an allowed model before using it. If a disallowed model was used accidentally, disclose it rather than omitting it.
+
+Also summarize what you independently checked and which checks actually ran. If you used no AI, say so. No hidden chain-of-thought, complete chat transcript or exhaustive process diary is required.
 
 ## Supplied data
 
@@ -49,7 +64,7 @@ The public smoke check helps you verify the interface and a small useful workflo
 
 ## Handoff and submission
 
-Give us a short README with prerequisites and exact setup/start/test/reset commands; `PORT` and `ORDERS_DB` configuration; accepted formats and assumptions; atomic/partial failure policy; how a caller safely retries; tests actually run; and known limits/next work. If you used AI, briefly describe how and what you independently checked.
+Give us a short README with prerequisites and exact setup/start/test/reset commands; `PORT` and `ORDERS_DB` configuration; accepted formats and assumptions; atomic/partial failure policy; how a caller safely retries; tests actually run; and known limits/next work. Include the complete harness/model usage disclosure above and what you independently checked.
 
 Use the provided template to create a **private** repository under your personal account. Keep `main` at the original template; implement on `submission`. Add `StrideTechHiring` as a collaborator and open an unmerged PR from `submission` to `main`. Reply to the assessment email with `READY FOR REVIEW`, your GitHub username, repository URL and PR URL.
 
